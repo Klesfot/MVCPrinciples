@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCPrinciples.Data;
 using MVCPrinciples.Models;
@@ -24,13 +26,11 @@ namespace MVCPrinciples.Controllers
             var categories = await _categoryContext.Categories.ToListAsync();
             ViewBag.Categories = categories
                 .OrderBy(i => i.CategoryID)
-                .ThenBy(i => i.CategoryName)
                 .ToList();
 
             var suppliers = await _supplierContext.Suppliers.ToListAsync();
             ViewBag.Suppliers = suppliers
                 .OrderBy(i => i.SupplierID)
-                .ThenBy(i => i.CompanyName)
                 .ToList();
 
             return _productContext.Products != null ? 
@@ -41,6 +41,31 @@ namespace MVCPrinciples.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            var categories = _categoryContext.Categories.ToList();
+            categories = categories
+                .OrderBy(i => i.CategoryID)
+                .ToList();
+
+            var suppliers = _supplierContext.Suppliers.ToList();
+            suppliers = suppliers
+                .OrderBy(i => i.SupplierID)
+                .ToList();
+
+            var selectListCategories = new List<SelectListItem> { };
+            foreach (var c in categories)
+            {
+                selectListCategories.Add(new SelectListItem(c.CategoryName, c.CategoryID.ToString()));
+            }
+
+            var selectListSuppliers = new List<SelectListItem> { };
+            foreach (var s in suppliers)
+            {
+                selectListSuppliers.Add(new SelectListItem(s.CompanyName, s.SupplierID.ToString()));
+            }
+
+            ViewData["SelectListCategories"] = selectListCategories;
+            ViewData["SelectListSuppliers"] = selectListSuppliers;
+
             return View();
         }
 
@@ -63,6 +88,31 @@ namespace MVCPrinciples.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var categories = _categoryContext.Categories.ToList();
+            categories = categories
+                .OrderBy(i => i.CategoryID)
+                .ToList();
+
+            var suppliers = _supplierContext.Suppliers.ToList();
+            suppliers = suppliers
+                .OrderBy(i => i.SupplierID)
+                .ToList();
+
+            var selectListCategories = new List<SelectListItem> { };
+            foreach (var c in categories)
+            {
+                selectListCategories.Add(new SelectListItem(c.CategoryName, c.CategoryID.ToString()));
+            }
+
+            var selectListSuppliers = new List<SelectListItem> { };
+            foreach (var s in suppliers)
+            {
+                selectListSuppliers.Add(new SelectListItem(s.CompanyName, s.SupplierID.ToString()));
+            }
+
+            ViewData["SelectListCategories"] = selectListCategories;
+            ViewData["SelectListSuppliers"] = selectListSuppliers;
+
             if (id == null || _productContext.Products == null)
             {
                 return NotFound();

@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    List<SelectListItem> selectListCategories = (ViewData["SelectListCategories"] != null ? ViewData["SelectListCategories"] as List<SelectListItem> : null) ?? throw new InvalidOperationException();
+    List<SelectListItem> selectListSuppliers= (ViewData["SelectListSuppliers"] != null ? ViewData["SelectListSuppliers"] as List<SelectListItem> : null) ?? throw new InvalidOperationException();
 }
 
 <h1>Create</h1>
@@ -18,13 +20,17 @@
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SupplierId" class="control-label"></label>
-                <input asp-for="SupplierId" class="form-control" />
+                <tr>
+                    <td> Supplier </td>
+                    <td> @Html.DropDownListFor(x => x.SupplierId, selectListSuppliers, "- Please select a supplier -", new { @class = "form-control" }) </td>
+                </tr>
                 <span asp-validation-for="SupplierId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
+                <tr>
+                    <td> Category </td>
+                    <td> @Html.DropDownListFor(x => x.CategoryId, selectListCategories, "- Please select a category -", new { @class = "form-control" }) </td>
+                </tr>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,7 +60,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Discontinued" class="control-label"></label>
-                <input asp-for="Discontinued" class="form-control" />
+                <input type="checkbox" checked="@(1 == 0)" asp-for="Discontinued"/>
                 <span asp-validation-for="Discontinued" class="text-danger"></span>
             </div>
             <div class="form-group">
