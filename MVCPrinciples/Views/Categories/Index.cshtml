@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MVCPrinciples.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Categories</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Category Id
+            </th>
+            <th>
+                Category name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => item.CategoryID)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*<td>So maybe i did spend 2 hours searching why a bitmap was not displayed by default, turns out it's Northwind's shtick about putting 78 bytes in front of the bitmap for some purpose
+                so you just cut off these 78 bytes and then convert the byte[] array to base 64 and that's your bitmap. But then it turns out that images are not to be shown here. Well.
+                <img src="data:image/png;base64,@Convert.ToBase64String(item.Picture,78, item.Picture.Length -78)" />
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>
