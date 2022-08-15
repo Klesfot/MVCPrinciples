@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MVCPrinciples.Data;
 using MVCPrinciples.Models;
+using Options = MVCPrinciples.Data.Options;
 
 namespace MVCPrinciples.Controllers
 {
@@ -12,12 +14,18 @@ namespace MVCPrinciples.Controllers
         private readonly ProductContext _productContext;
         private readonly CategoryContext _categoryContext;
         private readonly SupplierContext _supplierContext;
+        private readonly IOptions<Options> _options;
 
-        public ProductsController(ProductContext productContext, CategoryContext categoryContext, SupplierContext supplierContext)
+        public ProductsController(
+            ProductContext productContext,
+            CategoryContext categoryContext,
+            SupplierContext supplierContext,
+            IOptions<Options> options)
         {
             _productContext = productContext;
             _categoryContext = categoryContext;
             _supplierContext = supplierContext;
+            _options = options;
         }
 
         // GET: Products
@@ -33,8 +41,15 @@ namespace MVCPrinciples.Controllers
                 .OrderBy(i => i.SupplierID)
                 .ToList();
 
+            var products = await _productContext.Products.ToListAsync();
+
+            if (_options.Value.ProductsDisplayQuantity != 0)
+            {
+                products = products.GetRange(0, 2);
+            }
+
             return _productContext.Products != null ? 
-                          View(await _productContext.Products.ToListAsync()) :
+                          View(products) :
                           Problem("Entity set 'ProductContext.Products'  is null.");
         }
 

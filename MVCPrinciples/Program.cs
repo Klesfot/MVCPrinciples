@@ -3,8 +3,12 @@ using MVCPrinciples.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddOptions();
+var section = builder.Configuration.GetSection(Options.SectionName);
+builder.Services.Configure<Options>(section);
+
 // Register db contexts to the DI container
-var connectionString = builder.Configuration.GetConnectionString("MVCPrinciplesContext");
+var connectionString = builder.Configuration["CustomAppConfig:DbConnectionString"];
 
 builder.Services.AddDbContext<CategoryContext>(options =>
     options.UseSqlServer(connectionString));
