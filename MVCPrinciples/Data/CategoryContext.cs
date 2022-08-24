@@ -9,6 +9,6 @@ namespace MVCPrinciples.Data
         {
         }
 
-        public DbSet<Models.Category> Categories { get; set; }  
+        public virtual DbSet<Models.Category> Categories { get; set; }  
     }
 }

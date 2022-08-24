@@ -9,6 +9,6 @@ namespace MVCPrinciples.Data
         {
         }
 
-        public DbSet<Models.Supplier> Suppliers { get; set; }
+        public virtual DbSet<Models.Supplier> Suppliers { get; set; }
     }
 }
