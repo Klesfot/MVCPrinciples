@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MVCPrinciples.Models.Category>
+
+@{
+    var categoryId = ViewBag.Id;
+    var category = Model.Where(c => c.CategoryID == categoryId).First();
+}
+
+<td>
+    <img src="data:image/png;base64,@Convert.ToBase64String(category.Picture, 78, category.Picture.Length - 78)"/>
+</td>
