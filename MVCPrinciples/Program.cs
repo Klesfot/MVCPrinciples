@@ -39,8 +39,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapDefaultControllerRoute();
+
+app.MapControllerRoute(name: "images",
+    pattern: "images/{image_id}",
+    defaults: new { controller = "Categories", action = "Image" });
 
 app.Run();
